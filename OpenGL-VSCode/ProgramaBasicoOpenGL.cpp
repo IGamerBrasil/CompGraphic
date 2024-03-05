@@ -45,8 +45,8 @@ using namespace std;
 
 
 // Limites l�gicos da �rea de desenho
-Ponto Min, Max;
-Poligono P1, P2;
+Ponto Min, Max, Pos, Desloc;
+Poligono P1, P2, P2x2;
 
 bool desenha = false;
 
@@ -63,13 +63,17 @@ void init()
 {
     Ponto MinPoly, MaxPoly, Folga;
     
-    // Define a cor do fundo da tela (AZUL)
-    glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+    // Define a cor do fundo da tela (AMARELO)
+    glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
 
     Min = Ponto (-20, -20);
     Max = Ponto (20, 20);
+
+    Desloc = Ponto(1,0,0);
     
     P1.LePoligono("Retangulo1x1.txt");
+    P2x2.LePoligono("Retangulo2x2.txt");
+
 
 }
 
@@ -167,7 +171,8 @@ void RotacionaAoRedorDeUmPonto(float alfa, Ponto P)
 // **********************************************************************
 void display( void )
 {
-
+    double dt;
+    dt = T.getDeltaT();
 	// Limpa a tela coma cor de fundo
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -181,25 +186,11 @@ void display( void )
 
 	glLineWidth(4);
 
-    
+    glTranslatef(Pos.x, Pos.y, Pos.z);
     defineCor(GreenYellow);
-    //glScalef(1, -0.5, 1);
-    glPushMatrix();
-        DesenhaTriangulo();
-    glPopMatrix();
-    
-    Ponto P = Ponto(-10, -10, 0);
-    
-    defineCor(VioletRed);
-
-    DesenhaTriangulo();
-
-    glColor3f(1,1,1); // R, G, B  [0..1]
-    DesenhaEixos();
-    
-    defineCor(IndianRed);
-    P1.desenhaPoligono();
-    
+    //P1.desenhaPoligono();
+    P2x2.desenhaPoligono();
+    Pos = Pos + Desloc;
     if (FoiClicado)
     {
         PontoClicado.imprime("- Ponto no universo: ", "\n");
@@ -271,6 +262,34 @@ void keyboard ( unsigned char key, int x, int y )
 
 	switch ( key )
 	{
+        //case 'd':
+        //case 'D':
+        //    Desloc = Ponto(1,0,0);
+        //    Pos = Pos + Desloc;
+        //    Desloc = Desloc*0.05; //Slow-Motion
+        //    break;
+        //case 'a':
+        //case 'A':
+        //    Desloc = Ponto(-1,0,0);
+        //    Pos = Pos + Desloc;
+        //    Desloc = Desloc*0.05; //Slow-Motion
+        //    break;
+        //case 'w':
+        //case 'W':
+        //    Desloc = Ponto(0,1,0);
+        //    Pos = Pos + Desloc;
+        //    Desloc = Desloc*0.05; //Slow-Motion
+        //    break;
+        //case 's':
+        //case 'S':
+        //    Desloc = Ponto(0,-1,0);
+        //    Pos = Pos + Desloc;
+        //    break;
+        //case 'P':
+        //case 'p':
+        //    P1.imprime();
+        //    cout << "\n \n";
+        //    break;
 		case 27:        // Termina o programa qdo
 			exit ( 0 );   // a tecla ESC for pressionada
 			break;
